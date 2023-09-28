@@ -1,0 +1,4 @@
+[0417/190834.632:ERROR:process_reader_win.cc(233)] ReadMemory at 0x26e000 of 73728 bytes failed: Only part of a ReadProcessMemory or WriteProcessMemory request was completed. (0x12B)
+[0417/190834.658:ERROR:crash_report_exception_handler.cc(111)] WriteEverything failed
+[0417/190834.666:ERROR:scoped_process_suspend.cc(38)] NtResumeProcess: An attempt was made to access an exiting process.  (0xc000010a)
+[0407/120113.806:ERROR:file_io_win.cc(179)] CreateFile C:\Users\HEURIS~1\AppData\Local\Temp\scoped_dir1428_6240\Crashpad\settings.dat: The process cannot access the file because it is being used by another process. (0x20)

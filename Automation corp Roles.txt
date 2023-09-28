@@ -1,0 +1,18 @@
+Learner
+Skill Master
+Skill master-Add View
+Skillmaster-View Publish
+Skillmaster-View only
+Skillmaster-Add only
+
+
+Specialization
+Functional
+HR
+Manager
+
+
+Pincode
+600001
+600015
+600048

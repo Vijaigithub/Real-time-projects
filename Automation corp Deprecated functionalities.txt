@@ -1,0 +1,327 @@
+// C1408
+	@Test
+	public void SelfPaced_C1408_PastDueDate() throws IOException, JSONException, InterruptedException {
+		selftest.pastDueDate(driver, appURL);
+	}
+
+//C1408 Past due date validation
+	
+	public void pastDueDate(WebDriver driver, String URL) throws InterruptedException, IOException {
+
+		navigateUrl(driver, URL);
+		deleteAllCookies(driver);
+
+		String username = Utils.getDataFromTestData("AdminLogin", "AdminUsername");
+		String adminpassword = Utils.getDataFromTestData("AdminLogin", "AdminPassword");
+		String SkillMasteruserID = Utils.getDataFromTestData("C1408_PastDueDate", "SkillMasterUserid");
+		String password = Utils.getDataFromTestData("SkillMasterUserCreation", "Password");
+		String SkillMasterFirstName = Utils.getDataFromTestData("C1408_PastDueDate", "SkillMasterFirstName");
+		String LastName = Utils.getDataFromTestData("SkillMasterUserCreation", "LastName");
+		String Designation = Utils.getDataFromTestData("SkillMasterUserCreation", "Designation");
+		String Department = Utils.getDataFromTestData("SkillMasterUserCreation", "Department");
+		String Location = Utils.getDataFromTestData("SkillMasterUserCreation", "Location");
+		String learner1 = Utils.getDataFromTestData("C1408_PastDueDate", "Learner1");
+		String learner2 = Utils.getDataFromTestData("C1408_PastDueDate", "Learner2");
+		String learner3 = Utils.getDataFromTestData("C1408_PastDueDate", "Learner3");
+		String learner4 = Utils.getDataFromTestData("C1408_PastDueDate", "Learner4");
+		String learner5 = Utils.getDataFromTestData("C1408_PastDueDate", "Learner5");
+		String learner6 = Utils.getDataFromTestData("C1408_PastDueDate", "Learner6");
+		String learner7 = Utils.getDataFromTestData("C1408_PastDueDate", "Learner7");
+		String learner8 = Utils.getDataFromTestData("C1408_PastDueDate", "Learner8");
+		String learner9 = Utils.getDataFromTestData("C1408_PastDueDate", "Learner9");
+		String learner10 = Utils.getDataFromTestData("C1408_PastDueDate", "Learner10");
+		String selfpaceMod = Utils.getDataFromTestData("C1408_PastDueDate", "SelfModName");
+		String selfpaceDescription = Utils.getDataFromTestData("C1408_PastDueDate", "SelfmodDescription");
+		String docDescrip = Utils.getDataFromTestData("C1408_PastDueDate", "DocumentDescription");
+		String progName = Utils.getDataFromTestData("C1408_PastDueDate", "PgmName");
+		String progDescrip = Utils.getDataFromTestData("C1408_PastDueDate", "PgmDescription");
+		String skillNam = Utils.getDataFromTestData("C1408_PastDueDate", "SkillName");
+		String skillDescription = Utils.getDataFromTestData("C1408_PastDueDate", "SkillDescription");
+
+		// Completed text validation
+		String currentDate = getCurrentDateWithFormat();
+		String actualcompleteText = "Completed on " + currentDate;
+		System.out.println(actualcompleteText);
+
+		boolean isUserLoggedIn = reusableFunctions.signIn(username, adminpassword, driver);
+
+		waitForElement(driver, dashboardPage);
+
+		boolean isUsercreation = reusableFunctions.SkillMasterCreation(SkillMasteruserID, password,
+				SkillMasterFirstName, LastName, Designation, Department, Location, driver);
+
+		waitForElement(driver, dashboardPage);
+
+		waitForElement(driver, usersLink);
+		click(driver, usersLink);
+		verifyElementIsPresent(driver, addBulkUserText);
+		verifyElementIsPresent(driver, downloadAddUserExcel);
+		click(driver, addBulkUsersLink);
+		wait(driver, "2");
+		uploadFileAutoIT(System.getProperty("user.dir") + "\\uploads\\CorpPastDueDateC1408.xlsx");
+		wait(driver, "2");
+		click(driver, selectAllUsers);
+		wait(driver, "2");
+		waitForElement(driver, importUsersButton);
+		click(driver, importUsersButton);
+		waitForElement(driver, importLearner);
+		click(driver, importLearner);
+		waitForElement(driver, doneBtn);
+		click(driver, doneBtn);
+		waitForElement(driver, userImportSuccessMsg);
+		click(driver, doneBtn);
+		waitForElement(driver, dashboardPage);
+
+		boolean IsAdminUserSignout = reusableFunctions.signedOut(driver);
+		wait(driver, "2");
+
+		boolean iSkillMasterLoggedIn = reusableFunctions.signIn(SkillMasteruserID, password, driver);
+		wait(driver, "3");
+
+		waitForElement(driver, skillmasterhomeBtn);
+		waitForElement(driver, skillMasAddFrstPgm);
+		click(driver, skillMasAddFrstPgm);
+		waitForElement(driver, disabledPrgmCreate);
+		sendKeys(driver, pgmName, progName);
+		wait(driver, "2");
+		sendKeys(driver, pgmDescription, progDescrip);
+		click(driver, localDisk);
+		wait(driver, "2");
+		uploadFileAutoIT(System.getProperty("user.dir") + "\\uploads\\Course.jpg");
+		wait(driver, "5");
+		waitForElement(driver, enabledPrgmCreate);
+		click(driver, enabledPrgmCreate);
+		wait(driver, "3");
+		waitForElement(driver, createdPgm);
+		click(driver, createdPgm);
+		waitForElement(driver, addFirstSkill);
+		click(driver, addFirstSkill);
+		sendKeys(driver, skillName, skillNam);
+		wait(driver, "2");
+		sendKeys(driver, skillDescrip, skillDescription);
+		click(driver, localDisk);
+		wait(driver, "2");
+		uploadFileAutoIT(System.getProperty("user.dir") + "\\uploads\\Corpdisprz.png");
+		wait(driver, "3");
+		verifyElementIsPresent(driver, skillMasterasRole);
+		waitForElement(driver, enabledPrgmCreate);
+		click(driver, enabledPrgmCreate);
+		wait(driver, "3");
+		waitForElement(driver, courseTitle);
+		click(driver, courseTitle);
+
+		// Map learners to the course
+
+		wait(driver, "3");
+		waitForElement(driver, learnerMappingPlusBtn);
+		click(driver, learnerMappingPlusBtn);
+		
+		waitForElement(driver, userSearch);
+		sendKeys(driver, userSearch, learner1);
+		boolean isLearner1Mapped = reusableFunctions.leanerMap(driver);
+
+		clearAndType(driver, userSearch, learner2);
+		boolean isLearner2Mapped = reusableFunctions.leanerMap(driver);
+		
+		clearAndType(driver, userSearch, learner3);
+		boolean isLearner3Mapped = reusableFunctions.leanerMap(driver);
+
+		clearAndType(driver, userSearch, learner5);
+		boolean isLearner5Mapped = reusableFunctions.leanerMap(driver);
+		
+		waitForElement(driver, proceeddocUsersBtn);
+		click(driver, proceeddocUsersBtn);
+		wait(driver, "3");
+		driver.navigate().refresh();
+		wait(driver, "3");
+
+		// Create a Self-paced Module
+
+		waitForElement(driver, addFirstModule);
+		click(driver, addFirstModule);
+		waitForElement(driver, selfPacedModule);
+		click(driver, selfPacedModule);
+		waitForElement(driver, disabledCreateSelf);
+
+		sendKeys(driver, selfModName, selfpaceMod);
+		wait(driver, "2");
+		sendKeys(driver, selfModDescrip, selfpaceDescription);
+
+		if (verifyElementIsPresent(driver, disbledSelfEnrollCheckbox)) {
+			click(driver, disbledSelfEnrollCheckbox);
+		} else {
+			System.out.println("Self enrollment checkbox is checked");
+		}
+
+		waitForElement(driver, enabledCreateSelf);
+		click(driver, enabledCreateSelf);
+		wait(driver, "5");
+
+		click(driver, engageTab);
+		waitForElement(driver, addFirstActivity);
+
+		// Adding a ppt document activity - Allow download and embed whole doc
+
+		click(driver, addFirstActivity);
+		waitForElement(driver, docActivity);
+		click(driver, docActivity);
+		waitForElement(driver, docDescription);
+		verifyElementIsPresent(driver, disabledActivityCreate);
+		sendKeys(driver, docDescription, docDescrip);
+		waitForElement(driver, enabledActivityCreate);
+		click(driver, enabledActivityCreate);
+		waitForElement(driver, uploadNowBtn);
+		click(driver, uploadNowBtn);
+		waitForElement(driver, localDisk);
+		click(driver, localDisk);
+		wait(driver, "2");
+		uploadFileAutoIT(System.getProperty("user.dir") + "\\uploads\\PPTSlidesSmall.ppt");
+		wait(driver, "3");
+		waitForElement(driver, UploadNowfromDisk);
+		click(driver, UploadNowfromDisk);
+		wait(driver, "10");
+		waitForElement(driver, embedWholeDoc);
+		click(driver, embedWholeDoc);
+		wait(driver, "2");
+		waitForElement(driver, doneBtn);
+		click(driver, doneBtn);
+		waitForElement(driver, addActivity);
+		verifyElementIsPresent(driver, editDocBtn);
+
+		wait(driver, "5");
+		// Validations in Audience tab
+		click(driver, audienceTab);
+		wait(driver, "2");
+		boolean isallLearnersChecked = reusableFunctions.allLearnerCheckboxEnable(driver);
+		wait(driver, "2");
+		boolean isCheckbox3Checked = reusableFunctions.maintainSequenceCheckboxEnable(driver);
+		wait(driver, "1");
+		boolean isCheckbox4Checked = reusableFunctions.disallowSkillMasterCheckboxEnable(driver);
+		wait(driver, "1");
+		boolean isCheckbox5Checked = reusableFunctions.lockModuleCheckboxEnable(driver);
+		wait(driver, "1");
+
+	    waitForElement(driver, dueDateInput);
+		click(driver, dueDateInput);
+		waitForElement(driver, dueDateCalendar);
+		waitForElement(driver, calendarBackBtn);
+		click(driver, calendarBackBtn);
+		waitForElement(driver, calendarDate);
+		click(driver, calendarDate);
+		wait(driver, "2");
+		waitForElement(driver, publishPastDue);
+		click(driver, publishPastDue);
+		wait(driver, "5");
+		waitForElement(driver, saveSelfMod);
+		click(driver, saveSelfMod);
+		waitForElement(driver, doneNewBtn);
+		click(driver, doneNewBtn);
+		wait(driver, "3");
+
+		boolean IsSkillMasternUserSignout = reusableFunctions.signedOut(driver);
+		wait(driver, "2");
+
+		// Log in as the learner1 and verify locked message
+
+		boolean isLearner1LoggedIn = reusableFunctions.signIn(learner1, password, driver);
+		wait(driver, "3");
+
+		waitForElement(driver, skillInContainer2);
+		click(driver, skillInContainer2);
+		wait(driver, "3");
+		waitForElement(driver, selfModNameLearner);
+		click(driver, selfModNameLearner);
+		waitForElement(driver, selfModDue);
+		waitForElement(driver, dismissBtn);
+		click(driver, dismissBtn);
+
+		boolean IsLearner1Signout = reusableFunctions.signedOut(driver);
+		wait(driver, "2");
+
+		// Log in as the learner2 and verify locked message
+
+		boolean isLearner2LoggedIn = reusableFunctions.signIn(learner2, password, driver);
+		wait(driver, "3");
+
+		waitForElement(driver, moduleInProgressCntainer);
+		click(driver, moduleInProgressCntainer);
+		wait(driver, "2");
+		waitForElement(driver, selfModDue);
+		waitForElement(driver, dismissBtn);
+		click(driver, dismissBtn);
+
+		boolean IsLearner2Signout = reusableFunctions.signedOut(driver);
+		wait(driver, "2");
+
+		// Log in as the learner3 and consume via calendar
+
+		boolean isLearner3LoggedIn = reusableFunctions.signIn(learner3, password, driver);
+		wait(driver, "3");
+
+		click(driver, calendarIcon);
+		wait(driver, "2");
+		click(driver, learnerCalendarPrev);
+		waitForElement(driver, moduleInCalendar);
+		click(driver, moduleInCalendar);
+		waitForElement(driver, learnNowBtn);
+		wait(driver, "1");
+		click(driver, learnNowBtn);
+		waitForElement(driver, alertMessage);
+		waitForElement(driver, alertOk);
+		click(driver, alertOk);
+
+		boolean IsLearner3Signout = reusableFunctions.signedOut(driver);
+		wait(driver, "2");
+		
+		// Log in as the learner4 and consume via calendar
+
+		boolean isLearner4LoggedIn = reusableFunctions.signIn(learner4, password, driver);
+		wait(driver, "3");
+		waitForElement(driver, searchSkillTextBox);
+		sendKeys(driver, searchSkillTextBox, selfpaceMod);
+		wait(driver, "2");
+		click(driver, searchSkillBtn);
+		wait(driver, "2");
+		List<WebElement> recentact = driver.findElements(By.xpath("//div[@class='module-category col-xs-12 all-module-results']//ul//li//span[text()='Past Due Date']")); 
+		WebElement activity = recentact.get(recentact.size()-1);
+		wait(driver, "2");
+		Actions action = new Actions(driver);
+		action.moveToElement(activity).build().perform();
+		activity.click();
+		waitForElement(driver, enrollNowBtn);
+		wait(driver, "1");
+		click(driver, enrollNowBtn);
+		waitForElement(driver, learnNowBtn);
+		wait(driver, "1");
+		click(driver, learnNowBtn);
+		wait(driver, "3");
+		waitForElement(driver, alertMessage);
+		waitForElement(driver, alertOk);
+		click(driver, alertOk);
+
+		boolean IsLearner4Signout = reusableFunctions.signedOut(driver);
+		wait(driver, "2");
+
+		// Log in as the learner5 and consume via notification
+
+		boolean isLearner5LoggedIn = reusableFunctions.signIn(learner5, password, driver);
+		wait(driver, "3");
+		
+		waitForElement(driver, learnerNotifications);
+		click(driver, learnerNotifications);
+		waitForElement(driver, learnerModuleNotification);
+		click(driver, learnerModuleNotification);
+		wait(driver,"3");
+		waitForElement(driver, alertMessage);
+		waitForElement(driver, alertOk);
+		click(driver, alertOk);
+
+		boolean IsLearner5Signout = reusableFunctions.signedOut(driver);
+		wait(driver, "2");
+		
+	}
+	
+	
+	
+----------------------------------------------------------------------------------------------------------------------
+
